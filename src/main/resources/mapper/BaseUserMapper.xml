@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coding.auth.mapper.BaseUserMapper">
+  <resultMap id="BaseResultMap" type="com.coding.auth.model.BaseUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="account_non_expired" jdbcType="BOOLEAN" property="accountNonExpired" />
+    <result column="account_non_locked" jdbcType="BOOLEAN" property="accountNonLocked" />
+    <result column="credentials_non_expired" jdbcType="BOOLEAN" property="credentialsNonExpired" />
+    <result column="enable" jdbcType="BOOLEAN" property="enable" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, `password`, account_non_expired, account_non_locked, credentials_non_expired, 
+    `enable`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectByUsername" resultType="com.coding.auth.model.security.SecurityUser">
+      select     id, username, `password`, account_non_expired, account_non_locked, credentials_non_expired,
+                 `enable`
+      from base_user
+      where username = #{username}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from base_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.coding.auth.model.BaseUser" useGeneratedKeys="true">
+    insert into base_user (username, `password`, account_non_expired, 
+      account_non_locked, credentials_non_expired, 
+      `enable`)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{accountNonExpired,jdbcType=BOOLEAN}, 
+      #{accountNonLocked,jdbcType=BOOLEAN}, #{credentialsNonExpired,jdbcType=BOOLEAN}, 
+      #{enable,jdbcType=BOOLEAN})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.coding.auth.model.BaseUser" useGeneratedKeys="true">
+    insert into base_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="accountNonExpired != null">
+        account_non_expired,
+      </if>
+      <if test="accountNonLocked != null">
+        account_non_locked,
+      </if>
+      <if test="credentialsNonExpired != null">
+        credentials_non_expired,
+      </if>
+      <if test="enable != null">
+        `enable`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNonExpired != null">
+        #{accountNonExpired,jdbcType=BOOLEAN},
+      </if>
+      <if test="accountNonLocked != null">
+        #{accountNonLocked,jdbcType=BOOLEAN},
+      </if>
+      <if test="credentialsNonExpired != null">
+        #{credentialsNonExpired,jdbcType=BOOLEAN},
+      </if>
+      <if test="enable != null">
+        #{enable,jdbcType=BOOLEAN},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.coding.auth.model.BaseUser">
+    update base_user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNonExpired != null">
+        account_non_expired = #{accountNonExpired,jdbcType=BOOLEAN},
+      </if>
+      <if test="accountNonLocked != null">
+        account_non_locked = #{accountNonLocked,jdbcType=BOOLEAN},
+      </if>
+      <if test="credentialsNonExpired != null">
+        credentials_non_expired = #{credentialsNonExpired,jdbcType=BOOLEAN},
+      </if>
+      <if test="enable != null">
+        `enable` = #{enable,jdbcType=BOOLEAN},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.coding.auth.model.BaseUser">
+    update base_user
+    set username = #{username,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      account_non_expired = #{accountNonExpired,jdbcType=BOOLEAN},
+      account_non_locked = #{accountNonLocked,jdbcType=BOOLEAN},
+      credentials_non_expired = #{credentialsNonExpired,jdbcType=BOOLEAN},
+      `enable` = #{enable,jdbcType=BOOLEAN}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
